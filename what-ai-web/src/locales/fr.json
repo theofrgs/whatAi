@@ -1,0 +1,82 @@
+{
+  "companyName": "What Ai",
+  "welcome": {
+    "heading": "Bienvenue to What Ai",
+    "subtext": "Votre porte d'entrée vers l'univers."
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "submitButton": "Se connecter",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "registerLink": "S'inscrire"
+    },
+    "register": {
+      "title": "S'inscrire",
+      "submitButton": "S'inscrire",
+      "alreadyHaveAccount": "Vous avez déjà un compte ?",
+      "loginLink": "Se connecter"
+    },
+    "form": {
+      "email": {
+        "placeholder": "Email"
+      },
+      "password": {
+        "placeholder": "Mot de passe"
+      },
+      "last_name": {
+        "placeholder": "Nom de famille"
+      },
+      "first_name": {
+        "placeholder": "Prénom"
+      }
+    },
+    "validation": {
+      "required": "Obligatoire",
+      "invalidEmail": "Email invalide"
+    }
+  },
+  "home": {
+    "features": {
+      "imageGrouping": {
+        "title": "Image Grouping",
+        "description": "Organize your images seamlessly with our intuitive grouping features"
+      },
+      "contentTagging": {
+        "title": "Content Tagging",
+        "description": "Easily tag and categorize your content for better organization and retrieval."
+      },
+      "cloudIntegration": {
+        "title": "Cloud Integration",
+        "description": "Store and access your files securely in the cloud."
+      }
+    }
+  },
+  "footer": {
+    "solutions": {
+      "title": "Solutions",
+      "cluster": "Tri d'image",
+      "tagging": "Tag de contenu",
+      "cloud": "Cloud intégration"
+    },
+    "support": {
+      "title": "Support",
+      "pricing": "Prix",
+      "documentation": "Documentation",
+      "guides": "Guides",
+      "status": "Status"
+    },
+    "company": {
+      "title": "Entreprise",
+      "about": "À propos",
+      "career": "Jobs",
+      "partners": "Partenaires"
+    },
+    "legal": {
+      "title": "Légal",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "copyright": "© 2024 What Ai, Inc. All rights reserved."
+  }
+}

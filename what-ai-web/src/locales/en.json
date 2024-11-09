@@ -1,0 +1,83 @@
+{
+  "companyName": "What Ai",
+  "welcome": {
+    "heading": "Welcome to What Ai",
+    "subtext": "Your gateway to the universe."
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "submitButton": "Login",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register"
+    },
+    "register": {
+      "title": "Register",
+      "submitButton": "Register",
+      "alreadyHaveAccount": "Already have an account?",
+      "loginLink": "Login"
+    },
+    "form": {
+      "email": {
+        "placeholder": "Email"
+      },
+      "password": {
+        "placeholder": "Password"
+      },
+      "last_name": {
+        "placeholder": "Last Name"
+      },
+      "first_name": {
+        "placeholder": "First name"
+      }
+    },
+    "validation": {
+      "required": "Required",
+      "invalidEmail": "Invalid email"
+    }
+  },
+  "home": {
+    "features": {
+      "imageGrouping": {
+        "title": "Image Grouping",
+        "description": "Organize your images seamlessly with our intuitive grouping features"
+      },
+      "contentTagging": {
+        "title": "Content Tagging",
+        "description": "Easily tag and categorize your content for better organization and retrieval."
+      },
+      "cloudIntegration": {
+        "title": "Cloud Integration",
+        "description": "Store and access your files securely in the cloud."
+      }
+    },
+    "learnMore": "Learn more"
+  },
+  "footer": {
+    "solutions": {
+      "title": "Solutions",
+      "cluster": "Image grouping",
+      "tag": "Content tagging",
+      "cloud": "Cloud integration"
+    },
+    "support": {
+      "title": "Support",
+      "pricing": "Pricing",
+      "documentation": "Documentation",
+      "guides": "Guides",
+      "status": "Status"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About",
+      "career": "Career",
+      "partners": "Partners"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "copyright": "© 2024 What Ai, Inc. All rights reserved."
+  }
+}
