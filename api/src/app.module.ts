@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module';
 import { SeedService } from './services/seed/seed.service';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './services/guards/auth.guard';
+import { MessageModule } from './message/message.module';
+import { ConversationModule } from './conversation/conversation.module';
 
 @Module({
   imports: [
@@ -34,6 +36,8 @@ import { JwtAuthGuard } from './services/guards/auth.guard';
     }),
     AuthModule,
     UserModule,
+    MessageModule,
+    ConversationModule,
   ],
   controllers: [AppController],
   providers: [

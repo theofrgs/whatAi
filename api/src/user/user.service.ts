@@ -32,10 +32,4 @@ export class UserService extends BaseService<User> {
       entityManager,
     );
   }
-
-  async update(id: string, dto: UpdateUserDTO) {
-    const toUpdate = await this.findOneByOrFail({ id });
-    Object.assign(toUpdate, dto);
-    return await this.userRepository.save(toUpdate);
-  }
 }

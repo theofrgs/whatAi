@@ -34,9 +34,7 @@ export class JwtAuthGuard implements CanActivate {
     }
     try {
       const decoded = this.jwtService.verify(token.split('Bearer ')[1].trim());
-      const user = await this.userService.findOneByOrFail({ id: decoded.sub }, [
-        'role',
-      ]);
+      const user = await this.userService.findOneByOrFail({ id: decoded.sub });
       req.user = user;
       return true;
     } catch (error) {

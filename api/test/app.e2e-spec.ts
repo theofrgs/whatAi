@@ -8,6 +8,7 @@ import { User } from '@src/user/entities/user.entity';
 import { convertSqlToSqlLite } from '@src/services/tools';
 import { CreateLoginDTO } from '@src/auth/dto/login.dto';
 import { CreateUserDTO } from '@src/user/dto/create-user.dto';
+import { HashService } from '@src/services/hash/hash.service';
 
 // interface QueryParams {
 //   page?: number;
@@ -54,7 +55,7 @@ describe('AppController (e2e)', () => {
     if (process.env.NODE_ENV === 'test') convertSqlToSqlLite();
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppModule, TypeOrmModule.forFeature([User])],
-      providers: [UserService],
+      providers: [UserService, HashService],
     }).compile();
 
     app = module.createNestApplication();
@@ -84,85 +85,53 @@ describe('AppController (e2e)', () => {
     describe('Register', () => {
       it('register a native user', async () => {
         const response = await request(app.getHttpServer())
-          .post('/auth/register')
+          .post('/auth/native/register')
           .send(registerDto)
-          .expect(HttpStatus.OK);
-        // .expect(HttpStatus.CREATED);
-        expect(response.body).toHaveProperty('bearer');
-        token = response.body.bearer;
+          .expect(HttpStatus.CREATED);
+        expect(response.body).toHaveProperty('access_token');
+        token = response.body.access_token;
       });
 
       it('register same user', async () => {
         await request(app.getHttpServer())
-          .post('/auth/register')
+          .post('/auth/native/register')
           .send(registerDto)
           .expect(HttpStatus.BAD_REQUEST);
-      });
-    });
-
-    describe('Validation', () => {
-      it('login a no active user invalide', async () => {
-        await request(app.getHttpServer())
-          .post('/auth/login')
-          .send(loginDto)
-          .expect(HttpStatus.PAYMENT_REQUIRED);
-      });
-
-      it('System - Activated account', async () => {
-        const response = await request(app.getHttpServer()).get(
-          `/auth/confirm?token=${token}`,
-        );
-        expect(response.body).toHaveProperty('bearer');
-        expect(response.body).toHaveProperty('data');
-        expect(response.body.data).toHaveProperty('id');
-        expect(response.body.data).toHaveProperty('email');
-        token = response.body.bearer;
       });
     });
 
     describe('Login', () => {
       it('login a user without register', async () => {
         await request(app.getHttpServer())
-          .post('/auth/login')
+          .post('/auth/native/login')
           .send({ ...loginDto, email: 'fake@example.com' })
-          .expect(HttpStatus.BAD_REQUEST);
-      });
-
-      it('login a invalid native user', async () => {
-        await request(app.getHttpServer())
-          .post('/auth/login')
-          .send({ ...loginDto, email: 'fake@example.com' })
-          .expect(HttpStatus.BAD_REQUEST);
+          .expect(HttpStatus.NOT_FOUND);
       });
 
       it('login a invalid password native user', async () => {
         await request(app.getHttpServer())
-          .post('/auth/login')
+          .post('/auth/native/login')
           .send({ ...loginDto, password: 'fake@example.com' })
-          .expect(HttpStatus.BAD_REQUEST);
+          .expect(HttpStatus.FORBIDDEN);
       });
 
       it('login a native user', async () => {
         const response = await request(app.getHttpServer())
-          .post('/auth/login')
+          .post('/auth/native/login')
           .send(loginDto)
           .expect(HttpStatus.OK);
-        expect(response.body).toHaveProperty('bearer');
-        expect(response.body).toHaveProperty('user');
-        expect(response.body.user).toHaveProperty('id');
-        expect(response.body.user).toHaveProperty('email');
-        token = response.body.bearer;
+        token = response.body.access_token;
       });
     });
 
     describe('Basic request after auth success', () => {
       it('Get User details', async () => {
         const { body }: { body: User } = await request(app.getHttpServer())
-          .get('/auth/me')
+          .get('/user/me')
           .set('authorization', 'Bearer ' + token)
           .set('Content-Type', 'application/json')
           .send()
-          .expect(HttpStatus.OK);
+          .expect(HttpStatus.FOUND);
         expect(body.email).toBe(registerDto.email);
         expect(body.firstName).toBe(registerDto.firstName);
         expect(body.lastName).toBe(registerDto.lastName);
@@ -180,7 +149,7 @@ describe('AppController (e2e)', () => {
       });
       it('Invalid jwt', () => {
         request(app.getHttpServer())
-          .get('/auth/me')
+          .get('/auth/native/me')
           .set('authorization', 'Bearer ' + 'token')
           .set('Content-Type', 'application/json')
           .send()

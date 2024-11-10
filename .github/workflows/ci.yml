@@ -1,0 +1,38 @@
+name: CI API Pipeline
+
+on:
+  push:
+    branches:
+      - fake
+      - fake
+  pull_request:
+    branches:
+      - fake
+      - fake
+  workflow_call:
+    secrets:
+      API:
+        required: true
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: cd api && npm install
+
+      - name: Create .env
+        run: echo "${{ secrets.API }}" > .env
+
+      - name: Launch tests
+        run: |
+          cd api
+          npm run test
+          npm run test:e2e
+          npm run test:cov
+
+      - name: Build full
+        run: docker compose build

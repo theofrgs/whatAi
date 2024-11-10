@@ -12,6 +12,7 @@ import { ALoggerService } from './logger.service';
 
 interface IBaseService<T extends ObjectLiteral> {
   create(...args: any[]): Promise<T>;
+  update(...args: any[]): Promise<T>;
   findBy(
     findOptions?: any,
     relations?: string[],
@@ -42,14 +43,24 @@ export abstract class BaseService<T extends ObjectLiteral>
     super();
   }
 
-  // TODO refacto avoid unkdow and any ?
   async create(dto: Partial<T>, entityManager?: EntityManager): Promise<T> {
     const manager = entityManager || this.repository.manager;
 
     return manager.save(
       this.repository.target,
       manager.create(this.repository.target, dto as T),
-    ) as unknown as T;
+    );
+  }
+
+  async update(
+    id: string,
+    dto: Partial<T>,
+    entityManager?: EntityManager,
+  ): Promise<T> {
+    const manager = entityManager || this.repository.manager;
+    const toUpdate = await this.findOneByOrFail({ id }, [], {}, manager);
+    Object.assign(toUpdate, dto);
+    return manager.save(toUpdate);
   }
 
   // TODO refacto findOption and queryOpt.searchBy should be combined, or do another way
