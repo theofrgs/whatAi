@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/button";
@@ -14,12 +14,12 @@ export default function LoginPage() {
   const { login } = useAuthStore((state) => state);
   const router = useRouter();
 
-  const handleSubmit = (values: LoginDTO) => {
+  const handleSubmit = useCallback((values: LoginDTO) => {
     login(values).then(() => {
       // Toast success
-      router.push("/home");
+      router.push("/conversation");
     });
-  };
+  }, [login, router]);
 
   return (
     <div className="flex min-h-screen w-screen">

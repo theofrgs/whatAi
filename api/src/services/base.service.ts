@@ -77,7 +77,14 @@ export abstract class BaseService<T extends ObjectLiteral>
     entityManager?: EntityManager,
     queryOpt?: QueryOpt,
   ): Promise<T[]> {
-    const { page, perPage, searchBy, sortBy, select } = queryOpt || {};
+    const {
+      page,
+      perPage,
+      searchBy,
+      sortBy,
+      select,
+      relations: extra_relations,
+    } = queryOpt || {};
     const skip = page && perPage ? page * perPage : 0;
     const take = perPage || undefined;
 
@@ -114,7 +121,7 @@ export abstract class BaseService<T extends ObjectLiteral>
           where,
           select,
           cache: 60000,
-          relations: relations || [],
+          relations: [...(relations ?? []), ...(extra_relations ?? [])],
           order,
           skip,
           take,

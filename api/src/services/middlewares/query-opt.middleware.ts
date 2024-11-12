@@ -4,7 +4,8 @@ import { Response, NextFunction } from 'express';
 @Injectable()
 export class QueryOptMiddleware implements NestMiddleware {
   use(req: any, _: Response, next: NextFunction) {
-    const { page, perPage, sortBy, select, ...filterParams } = req.query;
+    const { page, perPage, sortBy, select, relations, ...filterParams } =
+      req.query;
 
     req.queryOpt = {
       page: page !== undefined ? +page : undefined,
@@ -15,6 +16,7 @@ export class QueryOptMiddleware implements NestMiddleware {
           : undefined,
       sortBy: sortBy !== undefined ? parseUrlByKey(sortBy) : undefined,
       select: select !== undefined ? select.split(',') : undefined,
+      relations: relations !== undefined ? relations.split(',') : undefined,
     };
     next();
   }

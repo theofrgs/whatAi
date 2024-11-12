@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
@@ -12,6 +12,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './services/guards/auth.guard';
 import { MessageModule } from './message/message.module';
 import { ConversationModule } from './conversation/conversation.module';
+import { QueryOptMiddleware } from './services/middlewares/query-opt.middleware';
 
 @Module({
   imports: [
@@ -48,4 +49,10 @@ import { ConversationModule } from './conversation/conversation.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(QueryOptMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.GET });
+  }
+}

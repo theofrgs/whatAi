@@ -1,6 +1,6 @@
 
 export interface BaseModel {
   id: string;
-  createdAd: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
 }

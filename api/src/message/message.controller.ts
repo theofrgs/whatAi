@@ -9,15 +9,25 @@ import {
   Req,
   HttpException,
   HttpCode,
+  Post,
 } from '@nestjs/common';
 import { ApiOperation, ApiBody, ApiTags } from '@nestjs/swagger';
 import { UpdateMessageDTO } from './dto/update-message.dto';
 import { MessageService } from './message.service';
+import { CreateMessageDTO } from './dto/create-message.dto';
 
 @ApiTags('Message')
 @Controller('message')
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
+
+  @ApiOperation({ summary: 'Create message' })
+  @HttpCode(HttpStatus.CREATED)
+  @ApiBody({ type: CreateMessageDTO })
+  @Post('')
+  async create(@Body() dto: CreateMessageDTO, @Req() req: any) {
+    return this.messageService.create({ ...dto, author: req.user });
+  }
 
   @ApiOperation({ summary: 'Find all messages' })
   @HttpCode(HttpStatus.FOUND)
@@ -28,24 +38,9 @@ export class MessageController {
 
   @ApiOperation({ summary: 'Find one message' })
   @HttpCode(HttpStatus.FOUND)
-  @Get('me')
-  async getMe(@Req() req: any) {
-    return req.message;
-  }
-
-  @ApiOperation({ summary: 'Find one message' })
-  @HttpCode(HttpStatus.FOUND)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.messageService.findOneByOrFail({ id });
-  }
-
-  @ApiOperation({ summary: 'Patch message' })
-  @ApiBody({ type: UpdateMessageDTO })
-  @HttpCode(HttpStatus.OK)
-  @Patch('me')
-  async updateMe(@Body() body: UpdateMessageDTO, @Req() req: any) {
-    return this.messageService.update(req.message.id, body);
   }
 
   @ApiOperation({ summary: 'Patch message' })
